@@ -1,0 +1,11 @@
+name: LiteQuests
+version: 1.0.0
+description: The best (and lightest) questing plugin!
+author: Ultimate 
+softdepend: [Citizens]
+main: me.ultimate.LiteQuests.LiteQuests
+
+commands:
+  quests:
+    description: Main admin command
+    usage: /<command> [args]
