@@ -165,7 +165,7 @@ public class QuestCreator implements Listener {
                } else if (rt.equals(RewardType.Item)) {
 
                } else if (rt.equals(RewardType.Money)) {
-                  if (words == 1 && IsInteger.check(msg)) {
+                  if (words == 1 && IsInteger.check(msg) && msg.contains(".")) {
 
                   } else {
                      Send.sendMessage(p, Language.INVALID_NUMBER);
@@ -173,7 +173,11 @@ public class QuestCreator implements Listener {
                } else if (rt.equals(RewardType.Teleport)) {
 
                } else {
-                  //Invalid
+                  Send.sendMessage(p, Language.UNVALID_TYPE);
+                  return;
+               }
+               if(rew == null){
+                  Send.sendMessage(p, Language.UNVALID_TYPE);
                   return;
                }
                reward.put(p.getName(), rew);

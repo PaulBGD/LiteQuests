@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>LiteQuests</groupId>
 	<artifactId>LiteQuests</artifactId>
-	<version>0.6.0</version>
+	<version>0.6.1 - Alpha</version>
 	<name>LiteQuests</name>
 	<description>LiteQuests - Bukkit Plugin</description>
 	<build>
