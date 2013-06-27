@@ -139,15 +139,14 @@ public class QuestCreator implements Listener {
                            creators.remove(p.getName());
                            creators.put(p.getName(), (double) 4);
                            rewardType.put(p.getName(), v);
-                           String next = null;
-                           if (v.equals(RewardType.Command))
-                              next = Language.UNVALID_TYPE;
-                           else if (v.equals(RewardType.Item))
-                              next = Language.PUT_ITEM_IN_HAND;
-                           else if(v.equals(RewardType.Teleport))
-                              next = Language.LOCATION_SETUP;
-                           else
-                              next = "ERROR!";
+                           String next = "ERROR";
+                           if (v != null)
+                              if (v.equals(RewardType.Command))
+                                 next = Language.UNVALID_TYPE;
+                              else if (v.equals(RewardType.Item))
+                                 next = Language.PUT_ITEM_IN_HAND;
+                              else if (v.equals(RewardType.Teleport))
+                                 next = Language.LOCATION_SETUP;
                            Send.sendMessage(p,
                                  Language.REWARD_TYPE_SET.replaceAll("%type%", v.name()).replaceAll("%next%", next));
                         }
