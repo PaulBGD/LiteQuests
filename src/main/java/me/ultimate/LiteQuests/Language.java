@@ -23,6 +23,8 @@ public class Language {
         LOCATION_SET = msgConfig.getString("LOCATION_SET");
         MOBKILL_SETUP = msgConfig.getString("MOBKILL_SETUP");
         MOBKILL_SET = msgConfig.getString("MOBKILL_SET");
+        INVALID_NUMBER = msgConfig.getString("INVALID_NUMBER");
+        SET_MOBKILL_AMOUNT = msgConfig.getString("SET_MOBKILL_AMOUNT");
     }
 
     public static String NOT_ENOUGH_ARGUMENTS;
@@ -40,11 +42,17 @@ public class Language {
     public static String MOBKILL_SETUP;
     public static String LOCATION_SET;
     public static String MOBKILL_SET;
+    public static String INVALID_NUMBER;
+    public static String SET_MOBKILL_AMOUNT;
 
     public void setupMessageDefaults(File file, FileConfiguration msg) {
+        msg.set("SET_MOBKILL_AMOUNT",
+                "You have sent the amount of mobs to kill to: %int%. Now type in the Reward Type. Types: %types%");
+        msg.set("INVALID_NUMBER", "Invalid number! Try again.");
         msg.set("MOBKILL_SET", "You have set the entity type to %entity%. Now type in the amount to kill.");
         msg.set("MOBKILL_SETUP", "Now type in what kind of mob you want the player to kill.");
-        msg.set("LOCATION_SET", "You have set the location to your current spot!");
+        msg.set("LOCATION_SET",
+                "You have set the location to your current spot! Now type in the Reward Type. Types: %types%");
         msg.set("LOCATION_SETUP", "Now go to the spot where you want the location to be, and type in anything.");
         msg.set("SET_QUEST_TYPE", "You have set the quest type to: %type%! %next%");
         msg.set("UNVALID_TYPE", "That is a invalid type! Try again!");

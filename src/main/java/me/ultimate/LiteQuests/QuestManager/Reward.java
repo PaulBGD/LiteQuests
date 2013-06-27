@@ -24,7 +24,7 @@ public class Reward {
     }
 
     public enum RewardType {
-        Money, Item, Command, Teleport
+        Money, Item, Command, Teleport, None
     }
 
     @SuppressWarnings("deprecation")

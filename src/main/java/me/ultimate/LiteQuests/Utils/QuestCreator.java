@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import main.java.me.ultimate.LiteQuests.Language;
 import main.java.me.ultimate.LiteQuests.Enums.QuestType;
+import main.java.me.ultimate.LiteQuests.QuestManager.Reward.RewardType;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ public class QuestCreator implements Listener {
     static HashMap<String, QuestType> type = new HashMap<String, QuestType>();
     static HashMap<String, Location> loc = new HashMap<String, Location>();
     static HashMap<String, EntityType> entity = new HashMap<String, EntityType>();
+    static HashMap<String, Integer> killAmount = new HashMap<String, Integer>();
 
     public static void startCreator(Player p, String qName) {
         if (!creators.containsKey(p.getName())) {
@@ -76,8 +78,13 @@ public class QuestCreator implements Listener {
             if (creators.get(p.getName()) > 1) {
                 QuestType qType = type.get(p.getName());
                 if (creators.get(p.getName()) == 2) {
+                    String rewardTypes = "| ";
+                    for (RewardType v : RewardType.values()) {
+                        if (v != RewardType.None)
+                            rewardTypes = rewardTypes + v.name() + " | ";
+                    }
                     if (qType.equals(QuestType.Location)) {
-                        Send.sendMessage(p, Language.LOCATION_SET);
+                        Send.sendMessage(p, Language.LOCATION_SET.replaceAll("%types%", rewardTypes));
                         loc.put(p.getName(), p.getLocation());
                         creators.remove(p.getName());
                         creators.put(p.getName(), (double) 3);
@@ -101,7 +108,23 @@ public class QuestCreator implements Listener {
                         }
                     }
                 } else if (creators.get(p.getName()) == 2.5) {
-                    //For mob killing
+                    if (words == 1) {
+                        if (!msg.contains(".") && IsInteger.check(msg)) {
+                            String rewardTypes = "| ";
+                            for (RewardType v : RewardType.values()) {
+                                if (v != RewardType.None)
+                                    rewardTypes = rewardTypes + v.name() + " | ";
+                            }
+                            Send.sendMessage(p, Language.SET_MOBKILL_AMOUNT.replaceAll("%types%", rewardTypes));
+                            killAmount.put(p.getName(), Integer.parseInt(msg));
+                            creators.remove(p.getName());
+                            creators.put(p.getName(), (double) 3);
+                        } else {
+                            Send.sendMessage(p, Language.INVALID_NUMBER);
+                        }
+                    } else {
+                        Send.sendMessage(p, Language.TOO_LONG);
+                    }
                 } else if (creators.get(p.getName()) == 3) {
                     //RewardType
                 } else if (creators.get(p.getName()) == 4) {
