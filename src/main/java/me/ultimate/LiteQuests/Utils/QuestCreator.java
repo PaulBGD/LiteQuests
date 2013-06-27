@@ -60,6 +60,7 @@ public class QuestCreator implements Listener {
                                     n = Language.MOBKILL_SETUP;
                                 Send.sendMessage(p,
                                         Language.SET_QUEST_TYPE.replaceAll("%type%", t.name()).replaceAll("%next%", n));
+                                return;
                             }
                         }
                         if (invalid) {
