@@ -1,6 +1,6 @@
-package me.ultimate.LiteQuests.CitizensStuff;
+package main.java.me.ultimate.LiteQuests.CitizensStuff;
 
-import me.ultimate.LiteQuests.LiteQuests;
+import main.java.me.ultimate.LiteQuests.LiteQuests;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.trait.Trait;
 
@@ -18,6 +18,6 @@ public class QuestsTrait extends Trait {
 
     @EventHandler
     public void onClick(NPCRightClickEvent event) throws Exception {
-        TraitCounter.traitCounter(event.getNPC().getName(), event.getClicker());
+        TraitCounter.traitCounter(event.getNPC(), event.getClicker());
     }
 }

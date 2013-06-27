@@ -3,7 +3,7 @@ version: 1.0.0
 description: The best (and lightest) questing plugin!
 author: Ultimate 
 softdepend: [Citizens]
-main: me.ultimate.LiteQuests.LiteQuests
+main: main.java.me.ultimate.LiteQuests.LiteQuests
 
 commands:
   quests:

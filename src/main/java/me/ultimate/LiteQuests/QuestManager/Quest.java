@@ -1,6 +1,6 @@
-package me.ultimate.LiteQuests.QuestManager;
+package main.java.me.ultimate.LiteQuests.QuestManager;
 
-import me.ultimate.LiteQuests.Enums.QuestType;
+import main.java.me.ultimate.LiteQuests.Enums.QuestType;
 
 public class Quest {
 

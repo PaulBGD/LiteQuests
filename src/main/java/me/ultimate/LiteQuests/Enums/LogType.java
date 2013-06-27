@@ -1,4 +1,4 @@
-package me.ultimate.LiteQuests.Enums;
+package main.java.me.ultimate.LiteQuests.Enums;
 
 public enum LogType {
 

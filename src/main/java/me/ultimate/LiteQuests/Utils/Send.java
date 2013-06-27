@@ -1,4 +1,4 @@
-package me.ultimate.LiteQuests.Utils;
+package main.java.me.ultimate.LiteQuests.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

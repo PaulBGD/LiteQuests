@@ -1,6 +1,6 @@
-package me.ultimate.LiteQuests.Utils;
+package main.java.me.ultimate.LiteQuests.Utils;
 
-import me.ultimate.LiteQuests.Enums.LogType;
+import main.java.me.ultimate.LiteQuests.Enums.LogType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

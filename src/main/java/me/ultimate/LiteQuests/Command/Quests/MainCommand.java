@@ -1,11 +1,10 @@
-package me.ultimate.LiteQuests.Command.Quests;
+package main.java.me.ultimate.LiteQuests.Command.Quests;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import me.ultimate.LiteQuests.Language;
-import me.ultimate.LiteQuests.LiteQuests;
-import me.ultimate.LiteQuests.Utils.Send;
+import main.java.me.ultimate.LiteQuests.Language;
+import main.java.me.ultimate.LiteQuests.Utils.Send;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,16 +15,15 @@ public class MainCommand implements CommandExecutor {
 
     public static HashMap<String, BaseCommand> commandClasses = new HashMap<String, BaseCommand>();
 
-    private LiteQuests LQ;
-
-    public MainCommand(LiteQuests LQ) {
-        this.LQ = LQ;
+    public MainCommand() {
+        registerArgument(new Create());
+        registerArgument(new New());
         registerArgument(new Help());
+        registerArgument(new QuestionMark());
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Language msg = LQ.getLanguage();
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length > 0) {
@@ -41,9 +39,8 @@ public class MainCommand implements CommandExecutor {
                 }
                 if (cont) {
                     int argsNeeded = cmdClass.getLength();
-                    if (args.length - 1 == argsNeeded) {
-                        if (p.hasPermission(cmdClass.getPermission())
-                                || p.hasPermission("LiteQuests." + cmdClass.getCommand())) {
+                    if (args.length - 1 >= argsNeeded) {
+                        if (p.hasPermission("LiteQuests.Quests." + cmdClass.getCommand())) {
                             if (args[argsNeeded] == null) {
                                 args[argsNeeded] = "Nothing";
                             }
@@ -53,26 +50,29 @@ public class MainCommand implements CommandExecutor {
                             }
 
                             String allArgs = sb.toString().trim();
-                            cmdClass.perform(p, allArgs, args);
+                            if (cmdClass.isAlias())
+                                cmdClass.getAlias().perform(p, allArgs, args);
+                            else
+                                cmdClass.perform(p, allArgs, args);
                             return true;
                         } else {
-                            Send.sendMessage(p, msg.PLAYER_NOT_HAVE_PERMISSION);
+                            Send.sendMessage(p, Language.PLAYER_NOT_HAVE_PERMISSION);
                             return true;
                         }
                     } else {
-                        Send.sendMessage(p, msg.NOT_ENOUGH_ARGUMENTS);
+                        Send.sendMessage(p, Language.NOT_ENOUGH_ARGUMENTS + " Try: " + cmdClass.getUsage());
                         return true;
                     }
                 } else {
-                    Send.sendMessage(p, msg.ARGUMENT_DOESNT_EXIST);
+                    Send.sendMessage(p, Language.ARGUMENT_DOESNT_EXIST);
                     return true;
                 }
             } else {
-                Send.sendMessage(p, msg.NOT_ENOUGH_ARGUMENTS);
+                Send.sendMessage(p, Language.NOT_ENOUGH_ARGUMENTS);
                 return true;
             }
         } else {
-            Send.sendMessage(sender, msg.NOT_A_PLAYER);
+            Send.sendMessage(sender, Language.NOT_A_PLAYER);
             return true;
         }
     }
