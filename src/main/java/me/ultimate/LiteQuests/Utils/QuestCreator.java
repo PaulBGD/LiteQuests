@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.entity.EntityType;
 
 public class QuestCreator implements Listener {
 
@@ -18,6 +19,7 @@ public class QuestCreator implements Listener {
     static HashMap<String, String> name = new HashMap<String, String>();
     static HashMap<String, QuestType> type = new HashMap<String, QuestType>();
     static HashMap<String, Location> loc = new HashMap<String, Location>();
+    static HashMap<String, EntityType> entity = new HashMap<String, EntityType>();
 
     public static void startCreator(Player p, String qName) {
         if (!creators.containsKey(p.getName())) {
@@ -40,8 +42,8 @@ public class QuestCreator implements Listener {
             event.setCancelled(true);
             Player p = event.getPlayer();
             String msg = event.getMessage();
+            int words = msg.trim().isEmpty() ? 0 : msg.trim().split("\\s+").length;
             if (creators.get(p.getName()) == 1) {
-                int words = msg.trim().isEmpty() ? 0 : msg.trim().split("\\s+").length;
                 if (words == 1) {
                     if (!msg.contains(".")) {
                         boolean invalid = true;
@@ -54,6 +56,8 @@ public class QuestCreator implements Listener {
                                 String n = null;
                                 if (t.equals(QuestType.Location))
                                     n = Language.LOCATION_SETUP;
+                                if (t.equals(QuestType.MobKill))
+                                    n = Language.MOBKILL_SETUP;
                                 Send.sendMessage(p,
                                         Language.SET_QUEST_TYPE.replaceAll("%type%", t.name()).replaceAll("%next%", n));
                             }
@@ -77,7 +81,23 @@ public class QuestCreator implements Listener {
                         creators.remove(p.getName());
                         creators.put(p.getName(), (double) 3);
                     } else if (qType.equals(QuestType.MobKill)) {
-
+                        if (words == 1) {
+                            boolean valid = false;
+                            for (EntityType ent : EntityType.values()) {
+                                if (!valid && msg.equalsIgnoreCase(ent.name()) && ent.isAlive()) {
+                                    valid = true;
+                                    entity.put(p.getName(), ent);
+                                    creators.remove(p.getName());
+                                    creators.put(p.getName(), (double) 2.5);
+                                    Send.sendMessage(p, Language.MOBKILL_SET.replaceAll("%entity%", ent.name()));
+                                }
+                            }
+                            if (!valid) {
+                                Send.sendMessage(p, Language.UNVALID_TYPE);
+                            }
+                        } else {
+                            Send.sendMessage(p, Language.TOO_LONG);
+                        }
                     }
                 } else if (creators.get(p.getName()) == 2.5) {
                     //For mob killing
