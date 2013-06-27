@@ -52,7 +52,7 @@ public class Language {
    public static String PUT_ITEM_IN_HAND;
 
    public void setupMessageDefaults(final File file, final FileConfiguration msg) {
-      msg.set("PUT_ITEM_IN_HAND", "Now put the item in your hand you wish to set and type anything.");
+      msg.set("PUT_ITEM_IN_HAND", "Now put the item in your hand you wish to set and type anything.   ");
       msg.set("TYPE_IN_COMMAND", "Now type in the command you wish to set.");
       msg.set("REWARD_TYPE_SET", "You have set the reward type to %type%! %next%");
       msg.set("SET_MOBKILL_AMOUNT",

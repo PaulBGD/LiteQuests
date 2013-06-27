@@ -141,9 +141,9 @@ public class QuestCreator implements Listener {
                            rewardType.put(p.getName(), v);
                            String next = null;
                            if (v.equals(RewardType.Command))
-                              next = "ect";
+                              next = Language.UNVALID_TYPE;
                            else if (v.equals(RewardType.Item))
-                              next = "something";
+                              next = Language.PUT_ITEM_IN_HAND;
                            Send.sendMessage(p,
                                  Language.REWARD_TYPE_SET.replaceAll("%type%", v.name()).replaceAll("%next%", next));
                         }
