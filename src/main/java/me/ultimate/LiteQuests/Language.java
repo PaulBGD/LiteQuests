@@ -26,6 +26,8 @@ public class Language {
       INVALID_NUMBER = msgConfig.getString("INVALID_NUMBER");
       SET_MOBKILL_AMOUNT = msgConfig.getString("SET_MOBKILL_AMOUNT");
       REWARD_TYPE_SET = msgConfig.getString("REWARD_TYPE_SET");
+      TYPE_IN_COMMAND = msgConfig.getString("TYPE_IN_COMMAND");
+      PUT_ITEM_IN_HAND = msgConfig.getString("PUT_ITEM_IN_HAND");
    }
 
    public static String NOT_ENOUGH_ARGUMENTS;
@@ -46,8 +48,12 @@ public class Language {
    public static String INVALID_NUMBER;
    public static String SET_MOBKILL_AMOUNT;
    public static String REWARD_TYPE_SET;
+   public static String TYPE_IN_COMMAND;
+   public static String PUT_ITEM_IN_HAND;
 
    public void setupMessageDefaults(final File file, final FileConfiguration msg) {
+      msg.set("PUT_ITEM_IN_HAND", "Now put the item in your hand you wish to set and type anything.");
+      msg.set("TYPE_IN_COMMAND", "Now type in the command you wish to set.");
       msg.set("REWARD_TYPE_SET", "You have set the reward type to %type%! %next%");
       msg.set("SET_MOBKILL_AMOUNT",
             "You have sent the amount of mobs to kill to: %int%. Now type in the Reward Type. Types: %types%");

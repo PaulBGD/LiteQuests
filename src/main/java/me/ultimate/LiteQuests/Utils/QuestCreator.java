@@ -176,7 +176,7 @@ public class QuestCreator implements Listener {
                   Send.sendMessage(p, Language.UNVALID_TYPE);
                   return;
                }
-               if(rew == null){
+               if (rew == null) {
                   Send.sendMessage(p, Language.UNVALID_TYPE);
                   return;
                }
