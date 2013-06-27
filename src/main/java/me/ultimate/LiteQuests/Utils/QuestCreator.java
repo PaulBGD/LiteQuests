@@ -144,6 +144,10 @@ public class QuestCreator implements Listener {
                               next = Language.UNVALID_TYPE;
                            else if (v.equals(RewardType.Item))
                               next = Language.PUT_ITEM_IN_HAND;
+                           else if(v.equals(RewardType.Teleport))
+                              next = Language.LOCATION_SETUP;
+                           else
+                              next = "ERROR!";
                            Send.sendMessage(p,
                                  Language.REWARD_TYPE_SET.replaceAll("%type%", v.name()).replaceAll("%next%", next));
                         }
@@ -151,9 +155,11 @@ public class QuestCreator implements Listener {
                   }
                   if (!cont) {
                      Send.sendMessage(p, Language.UNVALID_TYPE);
+                     return;
                   }
                } else {
                   Send.sendMessage(p, Language.TOO_LONG);
+                  return;
                }
             } else if (creators.get(p.getName()) == 4) {
                final RewardType rt = rewardType.get(p.getName());
@@ -169,6 +175,7 @@ public class QuestCreator implements Listener {
 
                   } else {
                      Send.sendMessage(p, Language.INVALID_NUMBER);
+                     return;
                   }
                } else if (rt.equals(RewardType.Teleport)) {
 
