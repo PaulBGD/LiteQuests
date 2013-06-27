@@ -7,49 +7,49 @@ import main.java.me.ultimate.LiteQuests.Utils.Send;
 
 import org.bukkit.entity.Player;
 
-public class New implements BaseCommand{
+public class New implements BaseCommand {
 
-    @Override
-    public void perform(Player p, String allArgs, String[] args) {
-        if(!Manager.getConfig().isSet("Quests." + args[1])){
-            if(!args[1].contains(".")){
-                QuestCreator.startCreator(p, args[1]);
-            } else {
-                Send.sendMessage(p, Language.NO_PERIODS);
-            }
-        } else {
-            Send.sendMessage(p, Language.QUEST_ALREADY_EXISTS.replaceAll("%quest%", args[1]));
-        }
-    }
+   @Override
+   public void perform(final Player p, final String allArgs, final String[] args) {
+      if (!Manager.getConfig().isSet("Quests." + args[1])) {
+         if (!args[1].contains(".")) {
+            QuestCreator.startCreator(p, args[1]);
+         } else {
+            Send.sendMessage(p, Language.NO_PERIODS);
+         }
+      } else {
+         Send.sendMessage(p, Language.QUEST_ALREADY_EXISTS.replaceAll("%quest%", args[1]));
+      }
+   }
 
-    @Override
-    public String getCommand() {
-        return "new";
-    }
+   @Override
+   public String getCommand() {
+      return "new";
+   }
 
-    @Override
-    public int getLength() {
-        return 1;
-    }
+   @Override
+   public int getLength() {
+      return 1;
+   }
 
-    @Override
-    public String getHelpMessage() {
-        return "Creates a new quest";
-    }
+   @Override
+   public String getHelpMessage() {
+      return "Creates a new quest";
+   }
 
-    @Override
-    public boolean isAlias() {
-        return false;
-    }
+   @Override
+   public boolean isAlias() {
+      return false;
+   }
 
-    @Override
-    public BaseCommand getAlias() {
-        return null;
-    }
+   @Override
+   public BaseCommand getAlias() {
+      return null;
+   }
 
-    @Override
-    public String getUsage() {
-        return "/quests new <name>";
-    }
+   @Override
+   public String getUsage() {
+      return "/quests new <name>";
+   }
 
 }

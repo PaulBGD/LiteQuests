@@ -9,43 +9,55 @@ import org.bukkit.inventory.ItemStack;
 
 public class Reward {
 
-    RewardType rt;
-    ItemStack item;
-    double money;
-    String command;
-    Location tp;
+   RewardType rt;
+   ItemStack item;
+   double money;
+   String command;
+   Location tp;
 
-    public Reward(RewardType rt, ItemStack item, double money, String command, Location tp) {
-        this.rt = rt;
-        this.item = item;
-        this.money = money;
-        this.command = command;
-        this.tp = tp;
-    }
+   public Object getFromRewardType(final RewardType type) {
+      if (type.equals(RewardType.Command))
+         return command;
+      if (type.equals(RewardType.Item))
+         return item;
+      if (type.equals(RewardType.Money))
+         return money;
+      if (type.equals(RewardType.Teleport))
+         return tp;
+      return null;
+   }
 
-    public enum RewardType {
-        Money, Item, Command, Teleport, None
-    }
+   public Reward(final RewardType rt, final ItemStack item, final double money, final String command, final Location tp) {
+      this.rt = rt;
+      this.item = item;
+      this.money = money;
+      this.command = command;
+      this.tp = tp;
+   }
 
-    @SuppressWarnings("deprecation")
-    public void giveToPlayer(Player p, Quest quest) {
-        if (rt.equals(RewardType.Money)) {
-            EconomyHandler.econ.depositPlayer(p.getName(), money);
-            return;
-        }
-        if (rt.equals(RewardType.Item)) {
-            p.getInventory().addItem(item);
-            p.updateInventory();
-            return;
-        }
-        if (rt.equals(RewardType.Command)) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                    command.replaceAll("%player%", p.getName()).replaceAll("%quest%", quest.getName()));
-            return;
-        }
-        if (rt.equals(RewardType.Teleport)) {
-            p.teleport(tp);
-            return;
-        }
-    }
+   public enum RewardType {
+      Money, Item, Command, Teleport, None
+   }
+
+   @SuppressWarnings("deprecation")
+   public void giveToPlayer(final Player p, final Quest quest) {
+      if (rt.equals(RewardType.Money)) {
+         EconomyHandler.econ.depositPlayer(p.getName(), money);
+         return;
+      }
+      if (rt.equals(RewardType.Item)) {
+         p.getInventory().addItem(item);
+         p.updateInventory();
+         return;
+      }
+      if (rt.equals(RewardType.Command)) {
+         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+               command.replaceAll("%player%", p.getName()).replaceAll("%quest%", quest.getName()));
+         return;
+      }
+      if (rt.equals(RewardType.Teleport)) {
+         p.teleport(tp);
+         return;
+      }
+   }
 }

@@ -4,15 +4,16 @@ import java.util.HashMap;
 
 import main.java.me.ultimate.LiteQuests.Language;
 import main.java.me.ultimate.LiteQuests.Enums.QuestType;
+import main.java.me.ultimate.LiteQuests.QuestManager.Reward;
 import main.java.me.ultimate.LiteQuests.QuestManager.Reward.RewardType;
 
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.entity.EntityType;
 
 public class QuestCreator implements Listener {
 
@@ -23,11 +24,12 @@ public class QuestCreator implements Listener {
    static HashMap<String, EntityType> entity = new HashMap<String, EntityType>();
    static HashMap<String, Integer> killAmount = new HashMap<String, Integer>();
    static HashMap<String, RewardType> rewardType = new HashMap<String, RewardType>();
+   static HashMap<String, Reward> reward = new HashMap<String, Reward>();
 
-   public static void startCreator(Player p, String qName) {
+   public static void startCreator(final Player p, final String qName) {
       if (!creators.containsKey(p.getName())) {
          String questTypes = "| ";
-         for (QuestType v : QuestType.values()) {
+         for (final QuestType v : QuestType.values()) {
             if (v != QuestType.None)
                questTypes = questTypes + v.name() + " | ";
          }
@@ -40,17 +42,17 @@ public class QuestCreator implements Listener {
    }
 
    @EventHandler(priority = EventPriority.HIGHEST)
-   public void onPlayerChat(AsyncPlayerChatEvent event) {
+   public void onPlayerChat(final AsyncPlayerChatEvent event) {
       if (creators.containsKey(event.getPlayer().getName())) {
          event.setCancelled(true);
-         Player p = event.getPlayer();
+         final Player p = event.getPlayer();
          String msg = event.getMessage();
-         int words = msg.trim().isEmpty() ? 0 : msg.trim().split("\\s+").length;
+         final int words = msg.trim().isEmpty() ? 0 : msg.trim().split("\\s+").length;
          if (creators.get(p.getName()) == 1) {
             if (words == 1) {
                if (!msg.contains(".")) {
                   boolean invalid = true;
-                  for (QuestType t : QuestType.values()) {
+                  for (final QuestType t : QuestType.values()) {
                      if (msg.equals(t.name())) {
                         type.put(p.getName(), t);
                         creators.remove(p.getName());
@@ -77,10 +79,10 @@ public class QuestCreator implements Listener {
             }
          }
          if (creators.get(p.getName()) > 1) {
-            QuestType qType = type.get(p.getName());
+            final QuestType qType = type.get(p.getName());
             if (creators.get(p.getName()) == 2) {
                String rewardTypes = "| ";
-               for (RewardType v : RewardType.values()) {
+               for (final RewardType v : RewardType.values()) {
                   if (v != RewardType.None)
                      rewardTypes = rewardTypes + v.name() + " | ";
                }
@@ -92,12 +94,12 @@ public class QuestCreator implements Listener {
                } else if (qType.equals(QuestType.MobKill)) {
                   if (words == 1) {
                      boolean valid = false;
-                     for (EntityType ent : EntityType.values()) {
+                     for (final EntityType ent : EntityType.values()) {
                         if (!valid && msg.equalsIgnoreCase(ent.name()) && ent.isAlive()) {
                            valid = true;
                            entity.put(p.getName(), ent);
                            creators.remove(p.getName());
-                           creators.put(p.getName(), (double) 2.5);
+                           creators.put(p.getName(), 2.5);
                            Send.sendMessage(p, Language.MOBKILL_SET.replaceAll("%entity%", ent.name().toLowerCase()));
                         }
                      }
@@ -112,7 +114,7 @@ public class QuestCreator implements Listener {
                if (words == 1) {
                   if (!msg.contains(".") && IsInteger.check(msg)) {
                      String rewardTypes = "| ";
-                     for (RewardType v : RewardType.values()) {
+                     for (final RewardType v : RewardType.values()) {
                         if (v != RewardType.None)
                            rewardTypes = rewardTypes + v.name() + " | ";
                      }
@@ -130,7 +132,7 @@ public class QuestCreator implements Listener {
             } else if (creators.get(p.getName()) == 3) {
                if (words == 1) {
                   boolean cont = false;
-                  for (RewardType v : RewardType.values()) {
+                  for (final RewardType v : RewardType.values()) {
                      if (!cont && !v.equals(RewardType.None)) {
                         if (msg.equalsIgnoreCase(v.name())) {
                            cont = true;
@@ -154,7 +156,27 @@ public class QuestCreator implements Listener {
                   Send.sendMessage(p, Language.TOO_LONG);
                }
             } else if (creators.get(p.getName()) == 4) {
-               //Reward Amount/Item
+               final RewardType rt = rewardType.get(p.getName());
+               Reward rew = null;
+               if (rt.equals(RewardType.Command)) {
+                  if (msg.startsWith("/"))
+                     msg = msg.replaceFirst("/", "");
+                  rew = new Reward(rt, null, 0, msg, null);
+               } else if (rt.equals(RewardType.Item)) {
+
+               } else if (rt.equals(RewardType.Money)) {
+                  if (words == 1 && IsInteger.check(msg)) {
+
+                  } else {
+                     Send.sendMessage(p, Language.INVALID_NUMBER);
+                  }
+               } else if (rt.equals(RewardType.Teleport)) {
+
+               } else {
+                  //Invalid
+                  return;
+               }
+               reward.put(p.getName(), rew);
             } else if (creators.get(p.getName()) == 5) {
                //NPC
             }
@@ -162,7 +184,7 @@ public class QuestCreator implements Listener {
       }
    }
 
-   public void stopCreator(Player p) {
+   public void stopCreator(final Player p) {
 
    }
 

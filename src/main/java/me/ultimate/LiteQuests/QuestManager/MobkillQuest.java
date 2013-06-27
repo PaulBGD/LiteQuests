@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class MobkillQuest {
 
-    public static void perform(Player p, LivingEntity entity){
-        
-    }
+   public static void perform(final Player p, final LivingEntity entity) {
+
+   }
 }

@@ -9,15 +9,15 @@ import org.bukkit.event.EventHandler;
 
 public class QuestsTrait extends Trait {
 
-    LiteQuests plugin;
+   LiteQuests plugin;
 
-    public QuestsTrait() {
-        super("LiteQuests");
-        plugin = (LiteQuests) Bukkit.getServer().getPluginManager().getPlugin("LiteQuests");
-    }
+   public QuestsTrait() {
+      super("LiteQuests");
+      plugin = (LiteQuests) Bukkit.getServer().getPluginManager().getPlugin("LiteQuests");
+   }
 
-    @EventHandler
-    public void onClick(NPCRightClickEvent event) throws Exception {
-        TraitCounter.traitCounter(event.getNPC(), event.getClicker());
-    }
+   @EventHandler
+   public void onClick(final NPCRightClickEvent event) throws Exception {
+      TraitCounter.traitCounter(event.getNPC(), event.getClicker());
+   }
 }

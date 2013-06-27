@@ -19,37 +19,38 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class LiteQuests extends JavaPlugin {
 
-    public static File dataFolder = null;
-    private File languageFile;
-    private FileConfiguration languageConfig;
-    private Language Language;
+   public static File dataFolder = null;
+   private File languageFile;
+   private FileConfiguration languageConfig;
+   private Language Language;
 
-    public void onEnable() {
-        dataFolder = getDataFolder();
-        EconomyHandler.setupEconomy();
-        if (getServer().getPluginManager().getPlugin("Citizens") == null) {
-            new Logger("Could not find Citizens! Disabling..", LogType.Horrible);
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        new Manager(this);
-        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(QuestsTrait.class).withName("LiteQuests"));
-        languageFile = new File(dataFolder + File.separator + "Messages.yml");
-        languageConfig = YamlConfiguration.loadConfiguration(languageFile);
-        Language = new Language(languageConfig);
-        //if (!languageFile.exists()) {
-        Language.setupMessageDefaults(languageFile, languageConfig);
-        languageConfig = YamlConfiguration.loadConfiguration(languageFile);
-        Language = new Language(languageConfig);
-        //}
-        getCommand("quests").setExecutor(new MainCommand());
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new QuestListener(), this);
-        pm.registerEvents(new QuestCreator(), this);
-    }
+   @Override
+   public void onEnable() {
+      dataFolder = getDataFolder();
+      EconomyHandler.setupEconomy();
+      if (getServer().getPluginManager().getPlugin("Citizens") == null) {
+         new Logger("Could not find Citizens! Disabling..", LogType.Horrible);
+         getServer().getPluginManager().disablePlugin(this);
+         return;
+      }
+      new Manager(this);
+      CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(QuestsTrait.class).withName("LiteQuests"));
+      languageFile = new File(dataFolder + File.separator + "Messages.yml");
+      languageConfig = YamlConfiguration.loadConfiguration(languageFile);
+      Language = new Language(languageConfig);
+      //if (!languageFile.exists()) {
+      Language.setupMessageDefaults(languageFile, languageConfig);
+      languageConfig = YamlConfiguration.loadConfiguration(languageFile);
+      Language = new Language(languageConfig);
+      //}
+      getCommand("quests").setExecutor(new MainCommand());
+      final PluginManager pm = getServer().getPluginManager();
+      pm.registerEvents(new QuestListener(), this);
+      pm.registerEvents(new QuestCreator(), this);
+   }
 
-    public Language getLanguage() {
-        return Language;
-    }
-    
+   public Language getLanguage() {
+      return Language;
+   }
+
 }

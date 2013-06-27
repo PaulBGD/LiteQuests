@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public class LocationQuest {
 
-    public static void perform(Player p){
-        
-    }
+   public static void perform(final Player p) {
+
+   }
 }
