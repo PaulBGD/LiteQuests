@@ -93,7 +93,6 @@ public class QuestCreator implements Listener {
                         if (!valid && msg.equalsIgnoreCase(ent.name()) && ent.isAlive()) {
                            valid = true;
                            entity.put(p.getName(), ent);
-                           finishCreator(p);
                            Send.sendMessage(p, Language.MOBKILL_SET.replaceAll("%entity%", ent.name().toLowerCase()));
                         }
                      }
