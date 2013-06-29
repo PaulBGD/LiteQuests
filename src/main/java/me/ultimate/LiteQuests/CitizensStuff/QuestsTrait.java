@@ -15,7 +15,7 @@ public class QuestsTrait extends Trait {
       super("LiteQuests");
       plugin = (LiteQuests) Bukkit.getServer().getPluginManager().getPlugin("LiteQuests");
    }
-
+   
    @EventHandler
    public void onClick(final NPCRightClickEvent event) throws Exception {
       TraitCounter.traitCounter(event.getNPC(), event.getClicker());

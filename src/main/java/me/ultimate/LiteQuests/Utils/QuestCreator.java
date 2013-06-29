@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import main.java.me.ultimate.LiteQuests.Language;
 import main.java.me.ultimate.LiteQuests.Enums.QuestType;
-import main.java.me.ultimate.LiteQuests.QuestManager.Reward;
-import main.java.me.ultimate.LiteQuests.QuestManager.Reward.RewardType;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -23,8 +21,6 @@ public class QuestCreator implements Listener {
    static HashMap<String, Location> loc = new HashMap<String, Location>();
    static HashMap<String, EntityType> entity = new HashMap<String, EntityType>();
    static HashMap<String, Integer> killAmount = new HashMap<String, Integer>();
-   static HashMap<String, RewardType> rewardType = new HashMap<String, RewardType>();
-   static HashMap<String, Reward> reward = new HashMap<String, Reward>();
 
    public static void startCreator(final Player p, final String qName) {
       if (!creators.containsKey(p.getName())) {
@@ -81,16 +77,10 @@ public class QuestCreator implements Listener {
          if (creators.get(p.getName()) > 1) {
             final QuestType qType = type.get(p.getName());
             if (creators.get(p.getName()) == 2) {
-               String rewardTypes = "| ";
-               for (final RewardType v : RewardType.values()) {
-                  if (v != RewardType.None)
-                     rewardTypes = rewardTypes + v.name() + " | ";
-               }
                if (qType.equals(QuestType.Location)) {
-                  Send.sendMessage(p, Language.LOCATION_SET.replaceAll("%types%", rewardTypes));
+                  Send.sendMessage(p, Language.LOCATION_SET);
                   loc.put(p.getName(), p.getLocation());
-                  creators.remove(p.getName());
-                  creators.put(p.getName(), (double) 3);
+                  finishCreator(p);
                } else if (qType.equals(QuestType.MobKill)) {
                   if (words == 1) {
                      boolean valid = false;
@@ -98,8 +88,7 @@ public class QuestCreator implements Listener {
                         if (!valid && msg.equalsIgnoreCase(ent.name()) && ent.isAlive()) {
                            valid = true;
                            entity.put(p.getName(), ent);
-                           creators.remove(p.getName());
-                           creators.put(p.getName(), 2.5);
+                           finishCreator(p);
                            Send.sendMessage(p, Language.MOBKILL_SET.replaceAll("%entity%", ent.name().toLowerCase()));
                         }
                      }
@@ -113,89 +102,26 @@ public class QuestCreator implements Listener {
             } else if (creators.get(p.getName()) == 2.5) {
                if (words == 1) {
                   if (!msg.contains(".") && IsInteger.check(msg)) {
-                     String rewardTypes = "| ";
-                     for (final RewardType v : RewardType.values()) {
-                        if (v != RewardType.None)
-                           rewardTypes = rewardTypes + v.name() + " | ";
-                     }
-                     Send.sendMessage(p,
-                           Language.SET_MOBKILL_AMOUNT.replaceAll("%int%", msg).replaceAll("%types%", rewardTypes));
+                     Send.sendMessage(p, Language.SET_MOBKILL_AMOUNT.replaceAll("%int%", msg));
                      killAmount.put(p.getName(), Integer.parseInt(msg));
-                     creators.remove(p.getName());
-                     creators.put(p.getName(), (double) 3);
+                     finishCreator(p);
                   } else {
                      Send.sendMessage(p, Language.INVALID_NUMBER);
                   }
                } else {
                   Send.sendMessage(p, Language.TOO_LONG);
                }
-            } else if (creators.get(p.getName()) == 3) {
-               if (words == 1) {
-                  boolean cont = false;
-                  for (final RewardType v : RewardType.values()) {
-                     if (!cont && !v.equals(RewardType.None)) {
-                        if (msg.equalsIgnoreCase(v.name())) {
-                           cont = true;
-                           creators.remove(p.getName());
-                           creators.put(p.getName(), (double) 4);
-                           rewardType.put(p.getName(), v);
-                           String next = "ERROR";
-                           if (v != null)
-                              if (v.equals(RewardType.Command))
-                                 next = Language.UNVALID_TYPE;
-                              else if (v.equals(RewardType.Item))
-                                 next = Language.PUT_ITEM_IN_HAND;
-                              else if (v.equals(RewardType.Teleport))
-                                 next = Language.LOCATION_SETUP;
-                           Send.sendMessage(p,
-                                 Language.REWARD_TYPE_SET.replaceAll("%type%", v.name()).replaceAll("%next%", next));
-                        }
-                     }
-                  }
-                  if (!cont) {
-                     Send.sendMessage(p, Language.UNVALID_TYPE);
-                     return;
-                  }
-               } else {
-                  Send.sendMessage(p, Language.TOO_LONG);
-                  return;
-               }
-            } else if (creators.get(p.getName()) == 4) {
-               final RewardType rt = rewardType.get(p.getName());
-               Reward rew = null;
-               if (rt.equals(RewardType.Command)) {
-                  if (msg.startsWith("/"))
-                     msg = msg.replaceFirst("/", "");
-                  rew = new Reward(rt, null, 0, msg, null);
-               } else if (rt.equals(RewardType.Item)) {
-
-               } else if (rt.equals(RewardType.Money)) {
-                  if (words == 1 && IsInteger.check(msg) && msg.contains(".")) {
-
-                  } else {
-                     Send.sendMessage(p, Language.INVALID_NUMBER);
-                     return;
-                  }
-               } else if (rt.equals(RewardType.Teleport)) {
-
-               } else {
-                  Send.sendMessage(p, Language.UNVALID_TYPE);
-                  return;
-               }
-               if (rew == null) {
-                  Send.sendMessage(p, Language.UNVALID_TYPE);
-                  return;
-               }
-               reward.put(p.getName(), rew);
-            } else if (creators.get(p.getName()) == 5) {
-               //NPC
             }
          }
       }
    }
 
-   public void stopCreator(final Player p) {
+   public void finishCreator(Player p) {
+      Send.sendMessage(p, Language.QUEST_CREATION_FINISHED);
+   }
 
+   public void stopCreator(final Player p) {
+      
    }
 
 }

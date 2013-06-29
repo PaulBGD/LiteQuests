@@ -28,6 +28,8 @@ public class Language {
       REWARD_TYPE_SET = msgConfig.getString("REWARD_TYPE_SET");
       TYPE_IN_COMMAND = msgConfig.getString("TYPE_IN_COMMAND");
       PUT_ITEM_IN_HAND = msgConfig.getString("PUT_ITEM_IN_HAND");
+      REWARD_SET = msgConfig.getString("REWARD_SET");
+      QUEST_CREATION_FINISHED = msgConfig.getString("QUEST_CREATION_FINISHED");
    }
 
    public static String NOT_ENOUGH_ARGUMENTS;
@@ -50,18 +52,21 @@ public class Language {
    public static String REWARD_TYPE_SET;
    public static String TYPE_IN_COMMAND;
    public static String PUT_ITEM_IN_HAND;
+   public static String REWARD_SET;
+   public static String QUEST_CREATION_FINISHED;
 
    public void setupMessageDefaults(final File file, final FileConfiguration msg) {
+      msg.set("QUEST_CREATION_FINISHED",
+            "You have finished the quest creator! Now go make some rewards and assign it to some NPCs!");
+      msg.set("REWARD_SET", "You have set the reward! Saving quest to file and removing you from quest creation...");
       msg.set("PUT_ITEM_IN_HAND", "Now put the item in your hand you wish to set and type anything.   ");
       msg.set("TYPE_IN_COMMAND", "Now type in the command you wish to set.");
       msg.set("REWARD_TYPE_SET", "You have set the reward type to %type%! %next%");
-      msg.set("SET_MOBKILL_AMOUNT",
-            "You have sent the amount of mobs to kill to: %int%. Now type in the Reward Type. Types: %types%");
+      msg.set("SET_MOBKILL_AMOUNT", "You have sent the amount of mobs to kill to: %int%. ");
       msg.set("INVALID_NUMBER", "Invalid number! Try again.");
       msg.set("MOBKILL_SET", "You have set the entity type to %entity%. Now type in the amount to kill.");
       msg.set("MOBKILL_SETUP", "Now type in what kind of mob you want the player to kill.");
-      msg.set("LOCATION_SET",
-            "You have set the location to your current spot! Now type in the Reward Type. Types: %types%");
+      msg.set("LOCATION_SET", "You have set the location to your current spot! ");
       msg.set("LOCATION_SETUP", "Now go to the spot where you want the location to be, and type in anything.");
       msg.set("SET_QUEST_TYPE", "You have set the quest type to: %type%! %next%");
       msg.set("UNVALID_TYPE", "That is a invalid type! Try again!");
