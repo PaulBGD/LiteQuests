@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>LiteQuests</groupId>
 	<artifactId>LiteQuests</artifactId>
-	<version>0.6.1 - Alpha</version>
+	<version>0.6.1-dev</version>
 	<name>LiteQuests</name>
 	<description>LiteQuests - Bukkit Plugin</description>
 	<build>
 	<defaultGoal>clean install</defaultGoal>
-		<sourceDirectory>src/</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}</directory>
@@ -32,20 +32,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.basedir}/src</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
