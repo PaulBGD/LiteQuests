@@ -9,7 +9,7 @@
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<defaultGoal>clean install</defaultGoal>
-		<sourceDirectory>src/main/java</sourceDirectory>
+		<sourceDirectory>${basedir}/src/</sourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
