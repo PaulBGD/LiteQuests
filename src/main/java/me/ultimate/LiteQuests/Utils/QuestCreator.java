@@ -1,11 +1,16 @@
 package main.java.me.ultimate.LiteQuests.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import main.java.me.ultimate.LiteQuests.Language;
+import main.java.me.ultimate.LiteQuests.LiteQuests;
 import main.java.me.ultimate.LiteQuests.Enums.QuestType;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -117,11 +122,54 @@ public class QuestCreator implements Listener {
    }
 
    public void finishCreator(Player p) {
+      //Setting up the files..
+      File questsFile = new File(LiteQuests.dataFolder + File.separator + "Quests.yml");
+      FileConfiguration questsConfig = YamlConfiguration.loadConfiguration(questsFile);
+      try {
+         questsConfig.save(questsFile);
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+      questsConfig = YamlConfiguration.loadConfiguration(questsFile);
+
       Send.sendMessage(p, Language.QUEST_CREATION_FINISHED);
+      creators.remove(p.getName());
+
+      String s = "Quests." + name.get(p.getName());
+      name.remove(p.getName());
+
+      QuestType qtype = type.get(p.getName());
+      type.remove(p.getName());
+      questsConfig.set(s + ".Type", qtype.name());
+
+      if (qtype.equals(QuestType.Location)) {
+         Location loca = loc.get(p.getName());
+         loc.remove(p.getName());
+         questsConfig.set(s + ".world", loca.getWorld().getName());
+         questsConfig.set(s + ".x", loca.getBlockX());
+         questsConfig.set(s + ".y", loca.getBlockY());
+         questsConfig.set(s + ".z", loca.getBlockZ());
+      } else if (qtype.equals(QuestType.MobKill)) {
+         EntityType et = entity.get(p.getName());
+         entity.remove(p.getName());
+
+         int amount = killAmount.get(p.getName());
+         killAmount.remove(p.getName());
+
+         questsConfig.set(s + ".Entity", et.name());
+         questsConfig.set(s + ".Amount", amount);
+
+      }
+      try {
+         questsConfig.save(questsFile);
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+
    }
 
    public void stopCreator(final Player p) {
-      
+
    }
 
 }
