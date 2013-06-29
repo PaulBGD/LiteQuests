@@ -123,7 +123,7 @@ public class QuestCreator implements Listener {
                }
             }
          }
-      }
+      } 
    }
 
    public void finishCreator(Player p) {
