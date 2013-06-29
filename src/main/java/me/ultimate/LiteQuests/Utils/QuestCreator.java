@@ -87,12 +87,16 @@ public class QuestCreator implements Listener {
                   loc.put(p.getName(), p.getLocation());
                   finishCreator(p);
                } else if (qType.equals(QuestType.MobKill)) {
+                  p.sendMessage("MobKill");
                   if (words == 1) {
                      boolean valid = false;
                      for (final EntityType ent : EntityType.values()) {
                         if (!valid && msg.equalsIgnoreCase(ent.name()) && ent.isAlive()) {
+                           p.sendMessage("Valid");
                            valid = true;
                            entity.put(p.getName(), ent);
+                           creators.remove(p.getName());
+                           creators.put(p.getName(), 2.5);
                            Send.sendMessage(p, Language.MOBKILL_SET.replaceAll("%entity%", ent.name().toLowerCase()));
                         }
                      }
@@ -104,8 +108,10 @@ public class QuestCreator implements Listener {
                   }
                }
             } else if (creators.get(p.getName()) == 2.5) {
+               p.sendMessage("2.5");
                if (words == 1) {
                   if (!msg.contains(".") && IsInteger.check(msg)) {
+                     p.sendMessage("No dot!");
                      Send.sendMessage(p, Language.SET_MOBKILL_AMOUNT.replaceAll("%int%", msg));
                      killAmount.put(p.getName(), Integer.parseInt(msg));
                      finishCreator(p);
@@ -121,6 +127,7 @@ public class QuestCreator implements Listener {
    }
 
    public void finishCreator(Player p) {
+      p.sendMessage("Finished!");
       //Setting up the files..
       File questsFile = new File(LiteQuests.dataFolder + File.separator + "Quests.yml");
       FileConfiguration questsConfig = YamlConfiguration.loadConfiguration(questsFile);
