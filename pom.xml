@@ -7,15 +7,16 @@
 	<name>LiteQuests</name>
 	<description>LiteQuests - Bukkit Plugin</description>
 	<build>
-	<defaultGoal>clean install</defaultGoal>
+		<finalName>${project.artifactId}</finalName>
+		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>${project.basedir}</directory>
-				<filtering>true</filtering>
+				<directory>${project.basedir}/src/main/resources</directory>
 				<includes>
-					<include>plugin.yml</include>
+					<include>**</include>
 				</includes>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 		<plugins>
@@ -29,32 +30,28 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8</version>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/package.xml</descriptor>
+					</descriptors>
+				</configuration>
 				<executions>
 					<execution>
-						<id>install-javadocs</id>
+						<id>build</id>
+						<phase>package</phase>
 						<goals>
-							<goal>javadoc</goal>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<outputDirectory>/var/www/javadoc</outputDirectory>
-					<reportOutputDirectory>/var/www/javadoc</reportOutputDirectory>
-					<destDir>litequests</destDir>
-					<show>public</show>
-					<windowtitle>LiteQuests</windowtitle>
-					<verbose>false</verbose>
-					<author>true</author>
-					<version>true</version>
-					<linksource>true</linksource>
+					<preparationGoals>assembly:assembly</preparationGoals>
+					<goals>assembly:assembly</goals>
+					<tagNameFormat>STABLE-@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 		</plugins>
