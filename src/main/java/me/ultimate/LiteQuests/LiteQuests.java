@@ -27,6 +27,7 @@ public class LiteQuests extends JavaPlugin {
    @Override
    public void onEnable() {
    
+   
       dataFolder = getDataFolder();
       EconomyHandler.setupEconomy();
       if (getServer().getPluginManager().getPlugin("Citizens") == null) {
